@@ -54,17 +54,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     setStep(Math.max(1, step - 1));
   };
 
-  const handleFormSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!patientName || !phone) return;
-
-    setLoading(true);
-
-    // Generate token and open WhatsApp synchronously to bypass popup blockers
-    const generatedId = `RAM-${Math.floor(1000 + Math.random() * 9000)}`;
-    const waMessage = `Hello Ram Medicals, I have booked an appointment.\n\nPatient Name: ${patientName}\nDoctor: ${currentDoctor.name}\nDate: ${selectedDate}\nTime: ${selectedTimeSlot}\nReason: ${reason || 'General Consultation'}\nToken: ${generatedId}`;
-    window.open(`https://wa.me/808836214?text=${encodeURIComponent(waMessage)}`, '_blank');
-
+  const executeBooking = async (generatedId: string) => {
     try {
       const response = await fetch('/api/appointments', {
         method: 'POST',
@@ -93,6 +83,23 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!patientName || !phone) return;
+
+    setLoading(true);
+
+    // Generate token and open WhatsApp synchronously in a non-async function to bypass popup blockers
+    const generatedId = `RAM-${Math.floor(1000 + Math.random() * 9000)}`;
+    const waMessage = `Hello Ram Medicals, I have booked an appointment.\n\nPatient Name: ${patientName}\nDoctor: ${currentDoctor.name}\nDate: ${selectedDate}\nTime: ${selectedTimeSlot}\nReason: ${reason || 'General Consultation'}\nToken: ${generatedId}`;
+    
+    // Use api.whatsapp.com for better reliability and include the 91 country code assuming it's an Indian number
+    window.open(`https://api.whatsapp.com/send?phone=91808836214&text=${encodeURIComponent(waMessage)}`, '_blank');
+
+    // Call the async fetch
+    executeBooking(generatedId);
   };
 
   const handlePrintOrDownload = () => {
@@ -433,7 +440,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
               <div className="flex flex-col sm:flex-row gap-3 pt-2">
                 <a
-                  href={`https://wa.me/808836214?text=${encodeURIComponent(`Hello Ram Medicals, I have booked an appointment.\n\nPatient Name: ${confirmedAppointment.patientName}\nDoctor: ${confirmedAppointment.doctorName}\nDate: ${confirmedAppointment.date}\nTime: ${confirmedAppointment.timeSlot}\nToken: ${confirmedAppointment.id}`)}`}
+                  href={`https://api.whatsapp.com/send?phone=91808836214&text=${encodeURIComponent(`Hello Ram Medicals, I have booked an appointment.\n\nPatient Name: ${confirmedAppointment.patientName}\nDoctor: ${confirmedAppointment.doctorName}\nDate: ${confirmedAppointment.date}\nTime: ${confirmedAppointment.timeSlot}\nToken: ${confirmedAppointment.id}`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full py-3 px-4 bg-green-600 text-white rounded-xl text-xs font-bold hover:bg-green-700 flex items-center justify-center gap-2"

@@ -1,0 +1,6 @@
+{
+  "name": "Ram Medicals Multiclinic - Bagaluru",
+  "description": "State-of-the-art medical multiclinic patient portal in Bagaluru featuring doctor appointments, live clinic status, specialty services, interactive gallery, location guide, and AI health assistant.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

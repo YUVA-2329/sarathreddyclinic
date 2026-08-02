@@ -79,7 +79,7 @@ export const AIAssistantModal: React.FC<AIAssistantModalProps> = ({
       const errorMsg: Message = {
         id: `e-${Date.now()}`,
         sender: 'assistant',
-        text: 'I am currently operating in offline mode. For immediate doctor booking or assistance, please call 8088685589 or tap "Book Appointment".',
+        text: 'I am currently operating in offline mode. For immediate doctor booking or assistance, please call +91 8088685589 or tap "Book Appointment".',
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
       setMessages(prev => [...prev, errorMsg]);

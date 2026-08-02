@@ -215,7 +215,7 @@ export const PatientPortalModal: React.FC<PatientPortalModalProps> = ({
                 <div className="flex gap-2">
                   <input
                     type="text"
-                    placeholder="e.g. 8088685589 or LAB-2026-99"
+                    placeholder="e.g. +91 8088685589 or LAB-2026-99"
                     className="flex-1 p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"
                   />
                   <button className="px-5 py-3 bg-teal-600 text-white rounded-xl text-xs font-bold hover:bg-teal-700 shadow">

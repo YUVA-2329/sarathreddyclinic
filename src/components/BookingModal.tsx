@@ -96,7 +96,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     const waMessage = `Hello Ram Medicals, I have booked an appointment.\n\nPatient Name: ${patientName}\nDoctor: ${currentDoctor.name}\nDate: ${selectedDate}\nTime: ${selectedTimeSlot}\nReason: ${reason || 'General Consultation'}\nToken: ${generatedId}`;
     
     // Use api.whatsapp.com for better reliability and include the 91 country code assuming it's an Indian number
-    window.open(`https://api.whatsapp.com/send?phone=91808836214&text=${encodeURIComponent(waMessage)}`, '_blank');
+    window.open(`https://api.whatsapp.com/send?phone=918088685589&text=${encodeURIComponent(waMessage)}`, '_blank');
 
     // Call the async fetch
     executeBooking(generatedId);
@@ -288,7 +288,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   <input
                     type="tel"
                     required
-                    placeholder="e.g. 808836214"
+                    placeholder="e.g. 8088685589"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     className="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-teal-500 focus:outline-none"
@@ -440,7 +440,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
               <div className="flex flex-col sm:flex-row gap-3 pt-2">
                 <a
-                  href={`https://api.whatsapp.com/send?phone=91808836214&text=${encodeURIComponent(`Hello Ram Medicals, I have booked an appointment.\n\nPatient Name: ${confirmedAppointment.patientName}\nDoctor: ${confirmedAppointment.doctorName}\nDate: ${confirmedAppointment.date}\nTime: ${confirmedAppointment.timeSlot}\nToken: ${confirmedAppointment.id}`)}`}
+                  href={`https://api.whatsapp.com/send?phone=918088685589&text=${encodeURIComponent(`Hello Ram Medicals, I have booked an appointment.\n\nPatient Name: ${confirmedAppointment.patientName}\nDoctor: ${confirmedAppointment.doctorName}\nDate: ${confirmedAppointment.date}\nTime: ${confirmedAppointment.timeSlot}\nToken: ${confirmedAppointment.id}`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full py-3 px-4 bg-green-600 text-white rounded-xl text-xs font-bold hover:bg-green-700 flex items-center justify-center gap-2"

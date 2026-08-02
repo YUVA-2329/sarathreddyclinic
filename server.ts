@@ -29,7 +29,7 @@ const appointments: Array<{
   {
     id: "RAM-8942",
     patientName: "Suresh Kumar",
-    phone: "808836214",
+    phone: "8088685589",
     email: "yuvakishore.vps@gmail.com",
     doctorName: "Dr. Rajesh V. Ram",
     specialty: "General Medicine",
@@ -42,7 +42,7 @@ const appointments: Array<{
   {
     id: "RAM-9015",
     patientName: "Ananya Sharma",
-    phone: "808836214",
+    phone: "8088685589",
     email: "yuvakishore.vps@gmail.com",
     doctorName: "Dr. Priya Nair",
     specialty: "Pediatrics & Child Care",
@@ -142,7 +142,7 @@ app.post("/api/ai-assistant", async (req, res) => {
     const ai = getGeminiClient();
     if (!ai) {
       return res.json({
-        reply: "Ram Medicals Multiclinic AI Assistant is active. For direct assistance or emergency booking in Bagaluru, please call 808836214 or tap 'Book Appointment'.",
+        reply: "Ram Medicals Multiclinic AI Assistant is active. For direct assistance or emergency booking in Bagaluru, please call 8088685589 or tap 'Book Appointment'.",
         disclaimer: "Medical Disclaimer: This information is for guidance only. Please consult a qualified doctor for medical diagnosis."
       });
     }
@@ -162,7 +162,7 @@ Your goal is to guide patients regarding:
 
 2. Clinic Details:
    - Location: 123 Health Avenue, Main Road, Bagaluru, Bengaluru, Karnataka 562149
-   - Contact: 808836214
+   - Contact: 8088685589
    - Timings: Morning Session 08:00 AM - 01:30 PM, Evening Session 04:30 PM - 09:00 PM (Mon - Sat), Sunday: 09:00 AM - 01:00 PM
 
 3. Guidelines:

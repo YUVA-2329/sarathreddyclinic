@@ -83,12 +83,12 @@ app.get("/api/appointments", (req, res) => {
 });
 
 app.post("/api/appointments", async (req, res) => {
-  const { patientName, phone, email, doctorName, specialty, date, timeSlot, reason } = req.body;
+  const { frontendId, patientName, phone, email, doctorName, specialty, date, timeSlot, reason } = req.body;
   if (!patientName || !phone || !doctorName || !date || !timeSlot) {
     return res.status(400).json({ error: "Missing required booking details" });
   }
 
-  const id = `RAM-${Math.floor(1000 + Math.random() * 9000)}`;
+  const id = frontendId || `RAM-${Math.floor(1000 + Math.random() * 9000)}`;
   const newAppointment = {
     id,
     patientName,

@@ -60,11 +60,17 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
     setLoading(true);
 
+    // Generate token and open WhatsApp synchronously to bypass popup blockers
+    const generatedId = `RAM-${Math.floor(1000 + Math.random() * 9000)}`;
+    const waMessage = `Hello Ram Medicals, I have booked an appointment.\n\nPatient Name: ${patientName}\nDoctor: ${currentDoctor.name}\nDate: ${selectedDate}\nTime: ${selectedTimeSlot}\nReason: ${reason || 'General Consultation'}\nToken: ${generatedId}`;
+    window.open(`https://wa.me/808836214?text=${encodeURIComponent(waMessage)}`, '_blank');
+
     try {
       const response = await fetch('/api/appointments', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          frontendId: generatedId,
           patientName,
           phone,
           email,
@@ -81,13 +87,6 @@ export const BookingModal: React.FC<BookingModalProps> = ({
         setConfirmedAppointment(data.data);
         onBookingSuccess(data.data);
         setStep(4); // Confirmation step
-
-        // Open WhatsApp
-        const waMessage = `Hello Ram Medicals, I have booked an appointment.\n\nPatient Name: ${patientName}\nDoctor: ${currentDoctor.name}\nDate: ${selectedDate}\nTime: ${selectedTimeSlot}\nReason: ${reason || 'General Consultation'}\nToken: ${data.data.id}`;
-        const waWindow = window.open(`https://wa.me/808836214?text=${encodeURIComponent(waMessage)}`, '_blank');
-        if (!waWindow) {
-           console.warn("Popup blocked, please click the WhatsApp button on the ticket.");
-        }
       }
     } catch (err) {
       console.error('Failed to create appointment', err);

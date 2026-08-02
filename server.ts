@@ -3,7 +3,6 @@ import path from "path";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
-import nodemailer from "nodemailer";
 
 dotenv.config();
 
@@ -105,27 +104,33 @@ app.post("/api/appointments", async (req, res) => {
 
   appointments.unshift(newAppointment);
 
-  // Send email notification
+  // Send email notification via FormSubmit API (No auth required)
   try {
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-      }
+    const emailResponse = await fetch("https://formsubmit.co/ajax/yuvakishore.vps@gmail.com", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({
+        _subject: `New Appointment Booking: ${patientName}`,
+        Patient_Name: patientName,
+        Token_ID: id,
+        Phone: phone,
+        Doctor: doctorName,
+        Date: date,
+        Time_Slot: timeSlot,
+        Reason: reason || 'General Consultation'
+      })
     });
-
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: 'yuvakishore.vps@gmail.com',
-      subject: `New Appointment Booking: ${patientName}`,
-      text: `A new appointment has been booked.\n\nDetails:\nToken ID: ${id}\nPatient Name: ${patientName}\nPhone: ${phone}\nDoctor: ${doctorName}\nDate: ${date}\nTime Slot: ${timeSlot}\nReason: ${reason || 'General Consultation'}`
-    };
-
-    await transporter.sendMail(mailOptions);
-    console.log("Email notification sent successfully.");
+    
+    if (emailResponse.ok) {
+      console.log("Email notification sent successfully via FormSubmit.");
+    } else {
+      console.error("FormSubmit responded with an error.");
+    }
   } catch (error) {
-    console.error("Failed to send email notification (Check EMAIL_USER and EMAIL_PASS in .env):", error);
+    console.error("Failed to send email notification:", error);
   }
 
   res.json({ success: true, data: newAppointment });

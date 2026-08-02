@@ -3,6 +3,7 @@ import path from "path";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
+import nodemailer from "nodemailer";
 
 dotenv.config();
 
@@ -81,7 +82,7 @@ app.get("/api/appointments", (req, res) => {
   res.json({ success: true, data: appointments });
 });
 
-app.post("/api/appointments", (req, res) => {
+app.post("/api/appointments", async (req, res) => {
   const { patientName, phone, email, doctorName, specialty, date, timeSlot, reason } = req.body;
   if (!patientName || !phone || !doctorName || !date || !timeSlot) {
     return res.status(400).json({ error: "Missing required booking details" });
@@ -103,6 +104,30 @@ app.post("/api/appointments", (req, res) => {
   };
 
   appointments.unshift(newAppointment);
+
+  // Send email notification
+  try {
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+      }
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: 'yuvakishore.vps@gmail.com',
+      subject: `New Appointment Booking: ${patientName}`,
+      text: `A new appointment has been booked.\n\nDetails:\nToken ID: ${id}\nPatient Name: ${patientName}\nPhone: ${phone}\nDoctor: ${doctorName}\nDate: ${date}\nTime Slot: ${timeSlot}\nReason: ${reason || 'General Consultation'}`
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log("Email notification sent successfully.");
+  } catch (error) {
+    console.error("Failed to send email notification (Check EMAIL_USER and EMAIL_PASS in .env):", error);
+  }
+
   res.json({ success: true, data: newAppointment });
 });
 

@@ -81,6 +81,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({
         setConfirmedAppointment(data.data);
         onBookingSuccess(data.data);
         setStep(4); // Confirmation step
+
+        // Open WhatsApp
+        const waMessage = `Hello Ram Medicals, I have booked an appointment.\n\nPatient Name: ${patientName}\nDoctor: ${currentDoctor.name}\nDate: ${selectedDate}\nTime: ${selectedTimeSlot}\nReason: ${reason || 'General Consultation'}\nToken: ${data.data.id}`;
+        window.open(`https://wa.me/91808836214?text=${encodeURIComponent(waMessage)}`, '_blank');
       }
     } catch (err) {
       console.error('Failed to create appointment', err);

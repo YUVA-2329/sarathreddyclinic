@@ -84,7 +84,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
         // Open WhatsApp
         const waMessage = `Hello Ram Medicals, I have booked an appointment.\n\nPatient Name: ${patientName}\nDoctor: ${currentDoctor.name}\nDate: ${selectedDate}\nTime: ${selectedTimeSlot}\nReason: ${reason || 'General Consultation'}\nToken: ${data.data.id}`;
-        window.open(`https://wa.me/91808836214?text=${encodeURIComponent(waMessage)}`, '_blank');
+        const waWindow = window.open(`https://wa.me/808836214?text=${encodeURIComponent(waMessage)}`, '_blank');
+        if (!waWindow) {
+           console.warn("Popup blocked, please click the WhatsApp button on the ticket.");
+        }
       }
     } catch (err) {
       console.error('Failed to create appointment', err);
@@ -427,6 +430,18 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   <span>Please arrive 10 minutes prior to slot.</span>
                   <span className="text-emerald-700 font-semibold">SMS confirmation sent</span>
                 </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                <a
+                  href={`https://wa.me/808836214?text=${encodeURIComponent(`Hello Ram Medicals, I have booked an appointment.\n\nPatient Name: ${confirmedAppointment.patientName}\nDoctor: ${confirmedAppointment.doctorName}\nDate: ${confirmedAppointment.date}\nTime: ${confirmedAppointment.timeSlot}\nToken: ${confirmedAppointment.id}`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-3 px-4 bg-green-600 text-white rounded-xl text-xs font-bold hover:bg-green-700 flex items-center justify-center gap-2"
+                >
+                  <Phone className="w-4 h-4" />
+                  <span>Send via WhatsApp</span>
+                </a>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3 pt-2">

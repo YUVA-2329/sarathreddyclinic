@@ -116,6 +116,15 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Call to Action Buttons */}
           <div className="hidden sm:flex items-center gap-3">
+            <a
+              href={CLINIC_INFO.mapDirectionsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2.5 text-slate-500 hover:text-teal-600 hover:bg-teal-50 rounded-xl transition-all"
+              title="Get Directions"
+            >
+              <MapPin className="w-5 h-5" />
+            </a>
             <button
               onClick={() => onOpenBooking()}
               className="relative inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm text-white bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 shadow-md shadow-teal-600/25 active:scale-[0.98] transition-all cursor-pointer"
@@ -127,6 +136,15 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Mobile Menu Toggle Button */}
           <div className="flex items-center gap-2 md:hidden">
+            <a
+              href={CLINIC_INFO.mapDirectionsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 text-slate-500 hover:text-teal-600 bg-slate-50 hover:bg-teal-50 rounded-lg transition-colors border border-slate-200 hover:border-teal-200"
+              aria-label="Get Directions"
+            >
+              <MapPin className="w-4 h-4" />
+            </a>
             <button
               onClick={() => onOpenBooking()}
               className="p-2 text-teal-700 bg-teal-50 rounded-lg font-medium text-xs flex items-center gap-1 border border-teal-200"
